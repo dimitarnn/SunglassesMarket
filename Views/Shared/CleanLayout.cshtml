@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title>Sunglasses Market</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="~/css/cleanStyle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
+</head>
+<body>
+    <div id="overlay"></div>
+    <!--wrapper start--> 
+    <div class="wrapper">
+        <!--header menu start-->
+        <div class="header">
+            <div class="header-menu">
+                <a id="home-page-link" asp-action="Index" asp-controller="Home" class="title">Sunglasses <span>Market</span></a>
+                <div class="sidebar-btn">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <ul>
+                    @if (_signInManager.IsSignedIn(User))
+                    {
+                        <li class="">
+                            <form method="post" asp-action="Logout" asp-controller="Account">
+                                <button type="submit" class="account-button" style="width: auto">
+                                    Logout @User.Identity.Name
+                                </button>
+                            </form>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a asp-controller="Account" asp-action="Register">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="Account" asp-action="Login">Login</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <!--header menu end-->
+        <!--sidebar start-->
+        <div class="sidebar">
+            <div class="sidebar-menu">
+                <div class="profile">
+                    @{
+                        string pic = "user_default.png";
+                        if (_signInManager.IsSignedIn(User))
+                        {
+                            var user = await _userManager.GetUserAsync(User);
+                            pic = user.ProfilePic;
+                        }
+                    }
+                    <img src="~/images/@pic" alt="">
+                    <p>@User.Identity.Name</p>
+                </div>
+                <ul>
+                    <li class="item" id="profile">
+                        <a href="#profile" class="menu-btn">
+                            <i class="fas fa-user-circle"></i><span>Profile <i class="fas fa-chevron-down drop-down"></i></span>
+                        </a>
+                        <div class="sub-menu">
+                            <a asp-action="ProfilePicture" asp-controller="Account"><i class="fas fa-image"></i><span>Picture</span></a>
+                            <a href="#"><i class="fas fa-address-card"></i><span>Info</span></a>
+                        </div>
+                    </li>
+                    <li class="item" id="display">
+                        <a asp-action="Display" asp-controller="Product" class="menu-btn">
+                            <i class="fas fa-glasses"></i><span>Our Products</span>
+                        </a>
+                    </li>
+                    @if (_signInManager.IsSignedIn(User))
+                    {
+                        <li class="item">
+                            <a asp-action="Index" asp-controller="Cart" class="menu-btn">
+                                <i class="fas fa-shopping-cart"></i><span>My Cart</span>
+                            </a>
+                        </li>
+                        <li class="item">
+                            <a asp-action="Index" asp-controller="Orders" class="menu-btn">
+                                <i class="fas fa-store"></i><span>My Orders</span>
+                            </a>
+                        </li>
+                    }
+                    @if (_signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                    {
+                        <li class="item" id="manage">
+                            <a href="#manage" class="menu-btn">
+                                <i class="fas fa-tasks"></i><span>Manage <i class="fas fa-chevron-down drop-down"></i></span>
+                            </a>
+                            <div class="sub-menu">
+                                <a asp-action="Index" asp-controller="Product"><i class="fas fa-glasses"></i><span>Products</span></a>
+                                <a asp-action="ListUsers" asp-controller="Administration"><i class="fas fa-users"></i><span>Users</span></a>
+                                <a asp-action="ListRoles" asp-controller="Administration"><i class="fas fa-user-tag"></i><span>Roles</span></a>
+                            </div>
+                        </li>
+                    }
+                    <li class="item" id="settings">
+                        <a href="#settings" class="menu-btn">
+                            <i class="fas fa-cog"></i><span>Settings <i class="fas fa-chevron-down drop-down"></i></span>
+                        </a>
+                        <div class="sub-menu">
+                            <a href="#"><i class="fas fa-lock"></i><span>Password</span></a>
+                            <a href="#"><i class="fas fa-language"></i><span>Language</span></a>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <a href="#" class="menu-btn">
+                            <i class="fas fa-info-circle"></i><span>About</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--sidebar end-->
+        <!--main container start-->
+        <div class="main-container">
+            @RenderBody()
+        </div>
+        <!--main container end-->
+    </div>
+    <!--wrapper end-->
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/js/validationFixes.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/datatablesScript.js"></script>
+    <script src="~/js/layout.js"></script>
+    <script src="~/js/addProduct.js"></script>
+    <script src="~/js/slider.js"></script>
+    <script src="~/js/preview.js"></script>
+
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>
+

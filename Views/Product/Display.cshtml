@@ -1,0 +1,52 @@
+﻿@model List<Product>
+
+<div class="content">
+    <h1>List of Products</h1>
+
+    @if (Model.Count() == 0)
+    {
+        <h4>No Products to display!</h4>
+    }
+    else
+    {
+        <table class="table datatable">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Photo</th>
+                    <th>Designer</th>
+                    <th>Brand</th>
+                    <th>Title</th>
+                    <th>Type</th>
+                    <th>Color</th>
+                    <th>Price</th>
+                    <th>Details</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model)
+                {
+                    <tr>
+                        <td>@product.Id</td>
+                        <td>
+                            <img src="~/images/@product.Photo" alt="image" width="100" />
+                        </td>
+                        <td>@product.Designer</td>
+                        <td>@product.Brand</td>
+                        <td>@product.Title</td>
+                        <td>@product.Type</td>
+                        <td>@product.Color</td>
+                        <td>@product.Price</td>
+                        <td>
+                            <a asp-action="Details" asp-route-productId="@product.Id">View</a>
+                        </td>
+                        <td>
+                            <a asp-controller="Cart" asp-action="Buy" asp-route-productId="@product.Id">Buy</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

@@ -1,0 +1,119 @@
+﻿@model ProductVM
+
+<div class="content">
+    <h1>List of Products</h1>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">
+        Create Product (Modal)
+    </button>
+
+    <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createModalLabel">Create new product</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="create-form" asp-controller="Product" asp-action="SaveProduct" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label asp-for="@Model.Product.Designer" class="control-label"></label>
+                            <input id="designer" asp-for="@Model.Product.Designer" class="form-control" />
+                            <span asp-validation-for="@Model.Product.Designer" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Product.Brand" class="control-label"></label>
+                            <input id="brand" asp-for="@Model.Product.Brand" class="form-control" />
+                            <span asp-validation-for="@Model.Product.Brand" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Product.Title" class="control-label"></label>
+                            <input id="title" asp-for="@Model.Product.Title" class="form-control" />
+                            <span asp-validation-for="@Model.Product.Title" class="text-danger"></span>
+                        </div>
+                        <div>
+                            <label asp-for="@Model.Product.Type" class="control-label"></label>
+                            <select id="type" asp-for="@Model.Product.Type">
+                                @foreach (var item in Enum.GetNames(typeof(SunglassesMarket.Models.Type)))
+                                {
+                                    <option value="@item">@item</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Product.Color" class="control-label"></label>
+                            <input id="color" asp-for="@Model.Product.Color" class="form-control" />
+                            <span asp-validation-for="@Model.Product.Color" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Product.Price" class="control-label"></label>
+                            <input id="price" asp-for="@Model.Product.Price" class="form-control" />
+                            <span asp-validation-for="@Model.Product.Price" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Image.Title" class="control-label"></label>
+                            <input id="image-title" asp-for="@Model.Image.Title" class="form-control" />
+                            <span asp-validation-for="@Model.Image.Title" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Image.ImageFile" class="control-label"></label>
+                            <input id="image-file" asp-for="@Model.Image.ImageFile" class="form-control" accept="image/*" />
+                            <span asp-validation-for="@Model.Image.ImageFile" class="text-danger"></span>
+                        </div>
+                        @*<div class="form-group">
+                            <button type="submit" class="btn btn-primary">Create</button>
+                        </div>*@
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="submit" type="button" class="btn btn-primary">Save product</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.Products.Count() == 0)
+    {
+        <h4>No Products to display!</h4>
+        <a asp-action="Create" class="btn btn-primary">Create</a>
+    }
+    else
+    {
+        <a asp-action="Create" class="btn btn-primary" style="margin-bottom: 10px">Create</a>
+        <table class="datatable" id="datatable">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Photo</th>
+                    <th>Designer</th>
+                    <th>Brand</th>
+                    <th>Title</th>
+                    <th>Type</th>
+                    <th>Color</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model.Products)
+                {
+                    <tr>
+                        <td>@product.Id</td>
+                        <td>
+                            <img src="~/images/@product.Photo" alt="image" width="100" />
+                        </td>
+                        <td>@product.Designer</td>
+                        <td>@product.Brand</td>
+                        <td>@product.Title</td>
+                        <td>@product.Type</td>
+                        <td>@product.Color</td>
+                        <td>@product.Price</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+

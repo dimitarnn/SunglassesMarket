@@ -1,0 +1,73 @@
+﻿@model List<Item>
+
+@{
+    ViewBag.Title = "Order Details";
+    var orderId = ViewBag.OrderId;
+}
+
+<div class="content">
+    <h1>Order details</h1>
+
+    @if (Model == null || !Model.Any())
+    {
+        <h3>No Products to display!</h3>
+        <a asp-action="Index" asp-controller="Orders">Return to Orders list</a>
+    }
+    else
+    {
+        <table class="datatable">
+            <thead>
+                <tr>
+                    <th>Photo</th>
+                    <th>Designer</th>
+                    <th>Brand</th>
+                    <th>Title</th>
+                    <th>Type</th>
+                    <th>Color</th>
+                    <th>Price</th>
+                    <th>Details</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <img src="~/images/@item.Product.Photo" alt="image" width="100" />
+                        </td>
+                        <td>@item.Product.Designer</td>
+                        <td>@item.Product.Brand</td>
+                        <td>@item.Product.Title</td>
+                        <td>@item.Product.Type</td>
+                        <td>@item.Product.Color</td>
+                        <td>@item.Product.Price</td>
+                        <td>
+                            <a asp-controller="Product" asp-action="Details" asp-route-productId="@item.Product.Id">View</a>
+                        </td>
+                        <td>@item.Quantity</td>
+                        <td>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td>
+                        Sum
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>k</td>
+                    <td>
+                        @ViewBag.Total
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    }
+</div>

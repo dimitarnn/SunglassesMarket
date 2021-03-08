@@ -1,0 +1,78 @@
+﻿@model Cart
+
+@{
+    ViewBag.Title = "Cart";
+}
+
+<div class="content">
+    <h3>Cart Page</h3>
+
+    @if (Model == null || !Model.Items.Any())
+    {
+        <h5>You have no products</h5>
+        <a asp-controller="Product" asp-action="Display">Go to Products List</a>
+    }
+    else
+    {
+        <table class="table datatable" id="datatable">
+            <thead>
+                <tr>
+                    <th>Option</th>
+                    <th>Photo</th>
+                    <th>Designer</th>
+                    <th>Brand</th>
+                    <th>Title</th>
+                    <th>Type</th>
+                    <th>Color</th>
+                    <th>Price</th>
+                    <th>Details</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td><a asp-controller="Cart" asp-action="Remove" asp-route-productId="@item.Product.Id">Remove</a></td>
+                        <td>
+                            <img src="~/images/@item.Product.Photo" alt="image" width="100" />
+                        </td>
+                        <td>@item.Product.Designer</td>
+                        <td>@item.Product.Brand</td>
+                        <td>@item.Product.Title</td>
+                        <td>@item.Product.Type</td>
+                        <td>@item.Product.Color</td>
+                        <td>@item.Product.Price</td>
+                        <td>
+                            <a asp-controller="Product" asp-action="Details" asp-route-productId="@item.Product.Id">View</a>
+                        </td>
+                        <td>@item.Quantity</td>
+                        <td>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td>Sum</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        @ViewBag.Total
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br />
+
+        <a asp-controller="Product" asp-action="Display" class="btn btn-primary">Continue Shopping</a>
+        <a asp-controller="Purchase" asp-action="ConfirmPurchase" class="btn btn-primary">Purchase</a>
+    }
+</div>

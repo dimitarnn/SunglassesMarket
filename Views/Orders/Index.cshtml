@@ -1,0 +1,45 @@
+﻿@model List<Order>
+
+@{ 
+    ViewBag.Title = "Orders List";
+}
+
+<div class="content">
+    <h1>Orders Made</h1>
+
+    @if (Model == null || !Model.Any())
+    {
+        <h3>No orders made</h3>
+        <a asp-controller="Products" asp-action="Display">Go to products</a>
+    }
+    else
+    {
+        <table class="table datatable">
+            <thead>
+                <tr>
+                    <th>Order Id</th>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>Address</th>
+                    <th>Phone Number</th>
+                    <th>Products</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model)
+                {
+                    <tr>
+                        <td>@order.Id</td>
+                        <td>@order.User.FirstName</td>
+                        <td>@order.User.LastName</td>
+                        <td>@order.Address</td>
+                        <td>@order.PhoneNumber</td>
+                        <td><a asp-controller="Orders" asp-action="Display" asp-route-orderId="@order.Id">View</a></td>
+                        <td>@order.Cost</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

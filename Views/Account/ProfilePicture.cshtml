@@ -1,0 +1,30 @@
+﻿@model Image
+@{ 
+    Layout = "CleanLayout";
+}
+
+<link rel="stylesheet" href="~/css/profilePic.css" />
+<div class="content">
+    <h1>Choose a Profile Picture</h1>
+
+    <div>
+        <img id="preview" src="" alt="Preview" />
+    </div>
+
+    <form asp-controller="Account" asp-action="ProfilePicture" enctype="multipart/form-data">
+        <div class="form-group">
+            <label asp-for="@Model.Title" class="control-label"></label>
+            <input asp-for="@Model.Title" class="form-control" />
+            <span asp-validation-for="@Model.Title" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.ImageFile" class="control-label"></label>
+            <input id="picture" asp-for="@Model.ImageFile" accept="image/*" />
+            <span asp-validation-for="@Model.ImageFile" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+
+</div>
